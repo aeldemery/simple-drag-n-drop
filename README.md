@@ -12,4 +12,4 @@ Simple Demo to demonstrate how to do drag n drop in Gtk4.
 
 ## Screenshot <a name = "screenshot"></a>
 
-![Screenshot]()
+![Screenshot](https://github.com/aeldemery/simple-drag-n-drop/blob/main/screenshot1.png)
