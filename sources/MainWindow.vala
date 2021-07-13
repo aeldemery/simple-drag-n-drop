@@ -16,17 +16,6 @@ public class SimpleDND.MainWindow : Gtk.ApplicationWindow {
         var header = new Gtk.HeaderBar ();
         this.set_titlebar (header);
 
-        fixed = new Gtk.Fixed ();
-        fixed.set_size_request(300, 200);
-
-        inc_icon = new Gtk.Image.from_icon_name ("go-up-symbolic");
-        inc_icon.name = "inc";
-        dec_icon = new Gtk.Image.from_icon_name ("go-down-symbolic");
-        dec_icon.name = "dec";
-
-        inc_icon.set_icon_size (Gtk.IconSize.LARGE);
-        dec_icon.set_icon_size (Gtk.IconSize.LARGE);
-
         var css_fragment = """
         label.number {
           color: white;
@@ -34,6 +23,7 @@ public class SimpleDND.MainWindow : Gtk.ApplicationWindow {
           padding: 8px;
           font-family: Cascadia Code;
           font-size: 80px;
+          text-shadow: 1px 1px 2px black, 0 0 25px blue, 0 0 5px darkblue;
         }
         label.info {
           color: white;
@@ -42,19 +32,40 @@ public class SimpleDND.MainWindow : Gtk.ApplicationWindow {
           font-family: Cascadia Code;
           font-size: 16px;
         }
+        image.arrows {
+          border-radius: 8px;
+          padding: 5px;
+          background-color: Tomato;
+        }
+        image.arrows:hover {
+          background-color: rgba(20, 104, 71, 0.5);
+          /* transform: scaleX(-1); */
+        }
         """;
 
+        var provider = new Gtk.CssProvider ();
+        provider.load_from_data (css_fragment.data);
+        Gtk.StyleContext.add_provider_for_display (Gdk.Display.get_default (), provider, 800);
+
+        fixed = new Gtk.Fixed ();
+        fixed.set_size_request(300, 200);
+
+        inc_icon = new Gtk.Image.from_icon_name ("go-up-symbolic");
+        inc_icon.name = "inc";
+        inc_icon.add_css_class("arrows");
+        dec_icon = new Gtk.Image.from_icon_name ("go-down-symbolic");
+        dec_icon.name = "dec";
+        dec_icon.add_css_class("arrows");
+
+        inc_icon.set_icon_size (Gtk.IconSize.LARGE);
+        dec_icon.set_icon_size (Gtk.IconSize.LARGE);
+        
         num_label = new Gtk.Label ("0");
         num_label.set_size_request (120, 20);
         num_label.add_css_class ("number");
 
-        var provider = new Gtk.CssProvider ();
-        provider.load_from_data (css_fragment.data);
-        num_label.get_style_context ().add_provider (provider, 800);
-
         var info_label = new Gtk.Label ("Drag the arrows to the nummber and see!");
         info_label.add_css_class ("info");
-        info_label.get_style_context ().add_provider (provider, 800);
 
         fixed.put (inc_icon, 100, 160);
         fixed.put (dec_icon, 500, 160);
